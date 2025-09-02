@@ -1,0 +1,65 @@
+import { FetchResultStatus, type FetchResult } from "@/lib/share";
+import type { PartOfUser } from "@/lib/share/user";
+import { http } from "@/net/http";
+
+const CACHE_KEY = 'CURRENT_USER';
+
+class UserMan {
+    private _username = $state('');
+    public isLoggedIn = $derived(this._username.trim() !== '');
+
+    public get username(): string {
+        return this._username;
+    }
+
+    /**
+     * user login
+     * @param phoneNumber login phone number
+     * @param captcha captcha
+     * @returns returns null if login success, or returns error message
+     */
+    public async login(phoneNumber: string, captcha: string): Promise<string | null> {
+        const response = await http.post<FetchResult<PartOfUser>>('login', {
+            phoneNumber,
+            captcha
+        });
+
+        if (response.data.status === FetchResultStatus.success) {
+            const partOfUser = response.data.data!;
+            this._username = partOfUser.username ?? '';
+            this.storeCache(partOfUser);
+            return null;
+        } else {
+            return response.data.error;
+        }
+    }
+
+    public logout() {
+        this._username = '';
+        this.clearCache();
+    }
+
+    public refresh() {
+        this._username = this.retrieveCache()?.username ?? '';;
+    }
+
+    private storeCache(user: PartOfUser) {
+        localStorage.setItem(CACHE_KEY, JSON.stringify(user));
+    }
+
+    private retrieveCache(): PartOfUser | null {
+        const cache = localStorage.getItem(CACHE_KEY);
+        if (cache === null) {
+            return null;
+        }
+
+        const data: PartOfUser = JSON.parse(cache);
+        return data;
+    }
+
+    private clearCache() {
+        localStorage.removeItem(CACHE_KEY);
+    }
+}
+
+export const userMan = new UserMan();
