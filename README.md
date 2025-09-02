@@ -1,38 +1,10 @@
-# Svelte Template
+# Fun Writer
 
-Full-Stack Template base on Bun.
-
-Used:
-
-- Build Tool: [Vite](https://vite.dev/)
-- SSR: [SelteKit](https://svelte.dev/)
-- Type checking: [TypeScript](https://www.typescriptlang.org/)
-- Formatter: [Prettier](https://prettier.io/)
-- Linter: [ESLint](https://eslint.org/)
-- Unit testing: [Vitest](https://vitest.dev/)
-- Component testing: [Playwright](https://playwright.dev)
-- CSS framework: [tailwindcss](https://tailwindcss.com), [DaisyUI](https://daisyui.com)
-- sveltekit-adapter: [node](https://svelte.dev/docs/kit/adapter-node)
-- Icon: [@iconify-json/mdi](https://icon-sets.iconify.design/mdi/)
-- Database: [PostgreSQL](https://www.postgresql.org/)
-- ORM: NONE! Writing the raw SQL by [Bun.sql](https://bun.sh/docs/api/sql)
-- DB migration: [node-pg-migrate](https://salsita.github.io/node-pg-migrate/)
-
-# Preview
-
-## Theme
-
-![theme](screenshot/theme.png)
+AI Fun Novel Generator
 
 # Usage
 
-```sh
-bun c https://github.com/dvorakchen/svelte-template <your-app-name>
-cd <your-app-name>
-```
-
-Create the `.env` file at root of project and set:
-
+set .env file
 ```
 # database url of PostgreSQL
 DATABASE_URL=postgres://username:password@localhost:5432/database
