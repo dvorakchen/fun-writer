@@ -50,9 +50,11 @@
 		logging = true;
 
 		error = (await userMan.login(phoneNumber, captcha)) ?? '';
-		if (await userMan.login(phoneNumber, captcha)) {
-			dialog?.close();
+		if (error) {
+			toastMan.add('warning', '登录失败，请重试');
+		} else {
 			toastMan.add('success', '登录成功');
+			dialog?.close();
 		}
 
 		logging = false;

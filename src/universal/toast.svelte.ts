@@ -1,6 +1,6 @@
 import { SvelteMap } from "svelte/reactivity";
 
-export type ToastType = 'success';
+export type ToastType = 'success' | 'warning';
 
 type Toast = {
     toastType: ToastType,

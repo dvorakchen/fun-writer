@@ -36,12 +36,17 @@ bun run test
 ```sh
 bun --bun run build
 # output build/
-cd build
 # migrate database, you need to set the environment variable `DATABASE_URL` first,
 # just set the .env file at the root of project
 bunx node-pg-migrate up
 
-bun --bun run start
+bun ./build/index.js
+```
+
+## Deploy with podman
+
+```sh
+bash ./pod_startup.sh
 ```
 
 ## Database Migration

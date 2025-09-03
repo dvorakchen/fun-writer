@@ -1,4 +1,4 @@
-FROM hub.aiursoft.cn/oven/bun:slim as node-env
+FROM hub.aiursoft.cn/oven/bun:slim as build
 
 USER root
 
@@ -11,9 +11,6 @@ RUN bun i
 COPY . .
 RUN bun --bun run build
 
-WORKDIR /app/build
-# RUN bunx node-pg-migrate up
-
 EXPOSE 3000
 
-CMD ["bun", "--bun", "run", "start"]
+CMD bunx node-pg-migrate up && bun ./build/index.js

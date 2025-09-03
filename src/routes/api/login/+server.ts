@@ -8,7 +8,6 @@ import type { RequestEvent } from "@sveltejs/kit";
 import type { PartOfUser } from '@/lib/share/user';
 
 export async function POST({ request, cookies }: RequestEvent) {
-
     let user: PartOfUser;
     if (import.meta.env.DEV) {
         user = {
@@ -94,7 +93,6 @@ async function registerUser(phoneNumber: string): Promise<PartOfUser> {
     (${initUsername}, '', '', ${phoneNumber}, 0, ${userStatus.enabled}, ${JSON.stringify(attributes)})
     RETURNING *;`
 
-    console.log(user);
     await sql`
     INSERT INTO user_roles (user_id, role_id)
     SELECT u.id, r.id 

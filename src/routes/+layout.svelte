@@ -25,6 +25,10 @@
 				<div class="alert alert-success">
 					<span>{toast[1].msg}</span>
 				</div>
+			{:else if toast[1].toastType === 'warning'}
+				<div class="alert alert-warning">
+					<span>{toast[1].msg}</span>
+				</div>
 			{:else}
 				<div class="alert alert-info">
 					<span>{toast[1].msg}</span>
