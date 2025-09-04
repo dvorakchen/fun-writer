@@ -11,7 +11,7 @@
 </script>
 
 <svelte:head>
-	<title>帕鲁AI-个人中心</title>
+	<title>帕鲁AI-写作中心</title>
 </svelte:head>
 
 <MarginNavTop />

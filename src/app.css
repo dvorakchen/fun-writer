@@ -12,3 +12,7 @@
 body {
 	@apply min-h-screen bg-fixed;
 }
+
+a {
+	@apply no-underline hover:underline underline-offset-2
+}

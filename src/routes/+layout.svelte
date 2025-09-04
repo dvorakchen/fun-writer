@@ -7,6 +7,7 @@
 	import Avatar from '@/lib/components/avatar.svelte';
 	import { onMount } from 'svelte';
 	import { getByCurrentQueryString } from '@/lib/utils';
+	import logo from '$lib/assets/favicon.ico';
 
 	let { children } = $props();
 
@@ -38,8 +39,8 @@
 	/>
 </svelte:head>
 
-<div class="fixed top-12 right-4 z-20">
-	<div class="toast-top toast-end toast">
+<div class="fixed z-20">
+	<div class="toast-top toast-end toast top-16">
 		{#each toastMan.list as toast (toast[0])}
 			{#if toast[1].toastType === 'success'}
 				<div class="alert alert-success">
@@ -60,7 +61,12 @@
 
 <div class="fixed top-0 z-10 navbar bg-transparent">
 	<div class="flex-1">
-		<a class="btn text-xl btn-ghost" href="/">AI帕鲁</a>
+		<a class="btn text-xl btn-link" href="/">
+			<span class="h-7 w-7 rounded overflow-clip">
+				<img class="w-full" src={logo} alt="AI帕鲁 logo" />
+			</span>
+			AI帕鲁</a
+		>
 	</div>
 	<div class="min-w-24 flex-none pr-4 text-right">
 		{#if userMan.isLoggedIn}
@@ -73,7 +79,12 @@
 					tabindex="0"
 					class="dropdown-content menu z-1 mt-2 w-52 rounded-box bg-base-100 p-2 shadow-sm"
 				>
-					<!-- <li><a href="/">Item 1</a></li> -->
+					<li>
+						<a href="/personal" class="link">
+							<i class="icon-[mdi--person]"></i>
+							个人中心</a
+						>
+					</li>
 					<li>
 						<button class="link link-error" onclick={onLogout}>
 							<i class="icon-[mdi--logout]"></i>

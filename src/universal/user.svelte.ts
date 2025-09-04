@@ -51,9 +51,13 @@ class UserMan {
         return true;
     }
 
+    /**
+     * user logout and goto home page
+     */
     public logout() {
         this._username = '';
         this.clearCache();
+        goto('/');
     }
 
     public refresh() {

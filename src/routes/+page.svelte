@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import heroBg from '$lib/assets/hero-bg.png';
 	import GenForGuest from '@/lib/components/gen_for_guest.svelte';
 	import { userMan } from '@/universal/user.svelte';
@@ -6,6 +7,10 @@
 	let trygen: HTMLElement;
 
 	function onToTryGen() {
+		if (userMan.isLoggedIn) {
+			goto('/write-board');
+			return;
+		}
 		trygen.scrollIntoView({
 			behavior: 'smooth',
 			block: 'start'
@@ -25,15 +30,20 @@
 				<h1 class="mb-5 text-5xl font-bold">欢乐写手</h1>
 				<p>人工智能写作工具</p>
 				<p class="mb-5">一键生成抽象派创意网文</p>
-				<button class="btn btn-xl btn-primary" onclick={onToTryGen}>免费生成</button>
+				<button class="btn btn-xl btn-primary" onclick={onToTryGen}>生成小说</button>
 			</div>
 		</div>
 	</section>
 
-	<section class="flex flex-col items-center gap-4 p-8 mb-32">
+	<section class="mb-32 flex flex-col items-center gap-4 p-8">
 		<div class="h-24" bind:this={trygen}></div>
 
-		{#if userMan.isLoggedIn}{:else}
+		{#if userMan.isLoggedIn}
+			<div class="text-3xl font-bold">开始写作</div>
+			<button class="btn btn-lg btn-primary" onclick={() => goto('/write-board')}
+				>进入写作中心</button
+			>
+		{:else}
 			<GenForGuest />
 		{/if}
 	</section>
