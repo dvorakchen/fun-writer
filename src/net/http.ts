@@ -1,5 +1,7 @@
 import type { FetchResult } from "@/lib/share";
 import axios, { type AxiosResponse } from "axios";
+import { goto } from "$app/navigation";
+import { userMan } from "@/universal/user.svelte";
 
 export const http = axios.create({
     baseURL: '/api/',
@@ -11,7 +13,8 @@ export const http = axios.create({
 axios.interceptors.response.use((response: AxiosResponse<FetchResult<unknown>>) => {
     switch (response.status) {
         case 401: {
-            location.href = `login/?redirect=${location.pathname}`;
+            userMan.logout();
+            goto(`login/?redirect=${location.pathname}`);
         } break;
     }
     // Any status code that lie within the range of 2xx cause this function to trigger

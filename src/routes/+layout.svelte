@@ -5,8 +5,20 @@
 	import { toastMan } from '@/universal/toast.svelte';
 	import { userMan } from '@/universal/user.svelte';
 	import Avatar from '@/lib/components/avatar.svelte';
+	import { onMount } from 'svelte';
+	import { getByCurrentQueryString } from '@/lib/utils';
 
 	let { children } = $props();
+
+	// svelte-ignore non_reactive_update
+	let loginBox: Login;
+
+	onMount(async () => {
+		const redirect = getByCurrentQueryString('redirect');
+		if (redirect && !userMan.isLoggedIn) {
+			loginBox?.openLoginBox();
+		}
+	});
 
 	function onLogout() {
 		userMan.logout();
@@ -15,7 +27,15 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
-	<title>欢乐写手 - 一键生成抽象派创意网文 | 人工智能写作工具</title>
+	<title>AI帕鲁-欢乐写手-一键生成抽象派创意网文 | 人工智能写作工具</title>
+	<meta
+		name="keywords"
+		content="网络小说生成器,AI写作,抽象派文学,小说创作工具,人工智能写作,创意写作,网文生成,内容生成器"
+	/>
+	<meta
+		name="description"
+		content="免费在线AI网络小说生成器, 采用先进人工智能技术生成抽象派、后现代风格的创意网络小说。支持多种文学风格，一键生成万字长文, 是作家和内容创作者的得力助手。"
+	/>
 </svelte:head>
 
 <div class="fixed top-12 right-4 z-20">
@@ -40,7 +60,7 @@
 
 <div class="fixed top-0 z-10 navbar bg-transparent">
 	<div class="flex-1">
-		<!-- <a class="btn btn-ghost text-xl" href="/">欢乐写手</a> -->
+		<a class="btn text-xl btn-ghost" href="/">AI帕鲁</a>
 	</div>
 	<div class="min-w-24 flex-none pr-4 text-right">
 		{#if userMan.isLoggedIn}
@@ -63,7 +83,7 @@
 				</ul>
 			</div>
 		{:else}
-			<Login />
+			<Login bind:this={loginBox} />
 		{/if}
 	</div>
 </div>

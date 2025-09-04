@@ -2,6 +2,8 @@
 	import { http } from '@/net/http';
 	import { toastMan } from '@/universal/toast.svelte';
 	import { userMan } from '@/universal/user.svelte';
+	import { getByCurrentQueryString } from '../utils';
+	import { goto } from '$app/navigation';
 
 	let { ...res } = $props();
 
@@ -14,6 +16,10 @@
 	let sendCaptchaButtonText = $derived.by(() => {
 		return count === 0 ? '发送验证码' : `${count}秒后重新发送`;
 	});
+
+	export function openLoginBox() {
+		dialog.showModal();
+	}
 
 	async function onSendCaptcha() {
 		if (count !== 0 || !phoneNumber.value.trim()) {
@@ -33,6 +39,8 @@
 	}
 
 	async function onLogin(ev: Event) {
+		ev.preventDefault();
+
 		const form = ev.target as HTMLFormElement;
 		const formData = new FormData(form);
 		let phoneNumber = formData.get('phoneNumber') as string;
@@ -54,6 +62,11 @@
 			toastMan.add('warning', '登录失败，请重试');
 		} else {
 			toastMan.add('success', '登录成功');
+			const redirect = getByCurrentQueryString('redirect');
+			if (redirect) {
+				goto(redirect);
+			}
+
 			dialog?.close();
 		}
 
@@ -61,7 +74,7 @@
 	}
 </script>
 
-<button class="btn btn-wide btn-primary" {...res} onclick={() => dialog.showModal()}>登录</button>
+<button class="btn btn-wide btn-primary" {...res} onclick={openLoginBox}>登录</button>
 <dialog bind:this={dialog} class="modal">
 	<form class="modal-box -mt-30" onsubmit={onLogin}>
 		<div class="flex flex-col items-center">

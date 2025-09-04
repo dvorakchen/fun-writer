@@ -1,3 +1,4 @@
+import { goto } from "$app/navigation";
 import { FetchResultStatus, type FetchResult } from "@/lib/share";
 import type { PartOfUser } from "@/lib/share/user";
 import { http } from "@/net/http";
@@ -32,6 +33,22 @@ class UserMan {
         } else {
             return response.data.error;
         }
+    }
+
+    /**
+     * ensure user is logged in
+     * @returns true if user is logged in, false otherwise
+     */
+    public async ensureLogin(): Promise<boolean> {
+        if (!this.isLoggedIn) {
+            goto('/?redirect=' + encodeURIComponent(window.location.pathname + window.location.search));
+            return false
+        };
+
+        const response = await http.head<PartOfUser>('login/check');
+        console.log(response.data);
+
+        return true;
     }
 
     public logout() {
